@@ -1,8 +1,10 @@
+# Efficiency of binary search is O(log(N))
+
 def binary_search_idx(input_array, value):
     from_idx = 0
     upto_idx = len(input_array) - 1
     while from_idx <= upto_idx:
-        half_idx = int((from_idx + upto_idx) / 2)
+        half_idx = (from_idx + upto_idx) // 2
         middle_element = input_array[half_idx]
         if value == middle_element:
             return half_idx
