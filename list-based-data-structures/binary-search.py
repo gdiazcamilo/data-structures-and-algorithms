@@ -42,7 +42,7 @@ assert index_found == -1
 def binary_search(input_array, value):
     """
     This implementation doesn't return the index and it's less efficient but it was my first approach.
-    I really don't know if it's possible to return the index of the found element with this approach.
+    I really don't know if it's possible to return the index of the found element with this approach. 
     """
     current_array = input_array
     while current_array:
