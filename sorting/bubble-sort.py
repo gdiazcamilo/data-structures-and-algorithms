@@ -1,5 +1,6 @@
 from typing import List
 
+# Efficienty of bubble sort is O(n^2)
 
 def bubble_sort(bubbles: List[int]) -> List[int]:
     pending_elements_to_sort = True
