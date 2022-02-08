@@ -1,4 +1,5 @@
 # Efficiency of binary search is O(log(N))
+# Using a simple loop to iterate each element will have a complexity of O(N)
 
 def binary_search_idx(input_array, value):
     from_idx = 0
