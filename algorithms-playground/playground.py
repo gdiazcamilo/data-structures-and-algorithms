@@ -7,7 +7,6 @@ class ListNode:
         self.next = next
 
     @property
-    @property.getter
     def next_node(self):
         return self.next
 
