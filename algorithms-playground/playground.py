@@ -1,38 +1,48 @@
-from typing import Optional
+from collections import deque
 
-# Definition for singly-linked list.
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
 
-    @property
-    def next_node(self):
-        return self.next
+class MyQueue:
 
-def deleteDuplicates(head: Optional[ListNode]) -> Optional[ListNode]:
-    if not head:
-        return None
+    def __init__(self):
+        self.push_stack = deque()
+        self.pop_stack = deque()
 
-    current_node = head
-    while current_node.next:
-        if current_node.val == current_node.next.val:
-            current_node.next = current_node.next.next
+    def push(self, x: int) -> None:
+        self.push_stack.append(x)
+
+    def pop(self) -> int:
+        if self.pop_stack:
+            return self.pop_stack.pop()
+        
+        while self.push_stack:
+            # reverse the order of items by poping from the `push_stack` and pushing to the `pop_stack`
+            last_in_line = self.push_stack.pop()
+            self.pop_stack.append(last_in_line)
+        
+        if self.pop_stack:
+            return self.pop_stack.pop()
+            
+
+    def peek(self) -> int:
+        if self.pop_stack:
+            return self.pop_stack[-1]
         else:
-            current_node = current_node.next
-    
-    return head
+            return self.push_stack[0]
+        
+
+    def empty(self) -> bool:
+        return not self.push_stack and not self.pop_stack
 
 
-head = ListNode(1)
-head.next = ListNode(2)
-head.next.next = ListNode(2)
-head.next.next.next = ListNode(3)
-head.next.next.next.next = ListNode(3)
-head.next.next.next.next.next = ListNode(3)
-head.next.next.next.next.next.next = ListNode(3)
-
-node = deleteDuplicates(head);
-while node:
-    print(node.val)
-    node = node.next
+d = MyQueue()
+d.push(1)
+d.push(2)
+d.push(3)
+print(d.peek())     # 1
+print(d.pop())      # 1
+print(d.peek())     # 2
+print(d.pop())      # 2
+print(d.peek())     # 3
+print(d.empty())    # false
+print(d.pop())      # 3
+print(d.empty())    # true
