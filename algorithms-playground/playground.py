@@ -1,7 +1,7 @@
 # based on the explanation from visualgo.net
 # worst case -> O(N^2)
 # averae case -> O(NLog(N))
-# in-place. In practice and with some optimizations is faster than merge sort and use less memory than merge sort.
+# It's in-place algorithm. In practice and with some optimizations is faster than merge sort and use less memory than merge sort.
 def quick_sort(array, from_idx, to_idx):
     if to_idx <= from_idx + 1:
         return array
@@ -35,9 +35,7 @@ def quick_sort(array, from_idx, to_idx):
 
 
 def swap(array, idx1, idx2):
-    temp = array[idx1]
-    array[idx1] = array[idx2]
-    array[idx2] = temp
+    array[idx1], array[idx2] = array[idx2], array[idx1]
 
 
 #array = [100,99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80]
