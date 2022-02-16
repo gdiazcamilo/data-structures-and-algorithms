@@ -1,48 +1,41 @@
-from collections import deque
-
-
-class MyQueue:
-
-    def __init__(self):
-        self.push_stack = deque()
-        self.pop_stack = deque()
-
-    def push(self, x: int) -> None:
-        self.push_stack.append(x)
-
-    def pop(self) -> int:
-        if self.pop_stack:
-            return self.pop_stack.pop()
+def quick_sort(array, from_idx, to_idx):
+    if to_idx <= from_idx + 1:
+        return array
         
-        while self.push_stack:
-            # reverse the order of items by poping from the `push_stack` and pushing to the `pop_stack`
-            last_in_line = self.push_stack.pop()
-            self.pop_stack.append(last_in_line)
-        
-        if self.pop_stack:
-            return self.pop_stack.pop()
-            
+    # We're going to choose an element (`pivot`) and and move it to the final sorted position that it should be.
+    pivot_idx = from_idx
+    pivot = array[pivot_idx]
 
-    def peek(self) -> int:
-        if self.pop_stack:
-            return self.pop_stack[-1]
-        else:
-            return self.push_stack[0]
-        
+    # `store_idx` tell us in which position we're going to put the elements that are <= than `pivot`
+    store_idx = pivot_idx + 1
 
-    def empty(self) -> bool:
-        return not self.push_stack and not self.pop_stack
+    # Move all the elements <= pivot next to pivot
+    for idx in range(from_idx + 1, to_idx):
+        if array[idx] <= pivot:
+            swap(array, store_idx, idx)
+            store_idx += 1
+    
+    # Now we know that pivot should be after the last element that we moved, 
+    # but Quick Sort is an in-place algorithm so we just swap `pivot` with the last_element.
+    # Then `pivot` will be at its final position.
+    swap(array, store_idx - 1, pivot_idx)
+    
+    # Now that `pivot` it's at its final position, we do the same but with the elements to the left and then with the elements to the right.
+    #sorted_first_half = 
+    quick_sort(array, pivot_idx, store_idx - 1)
+    # now that first half is sorted, sort the second half to finish
+    #sorted_array = 
+    quick_sort(array, store_idx, to_idx)
+    
+    return array
 
 
-d = MyQueue()
-d.push(1)
-d.push(2)
-d.push(3)
-print(d.peek())     # 1
-print(d.pop())      # 1
-print(d.peek())     # 2
-print(d.pop())      # 2
-print(d.peek())     # 3
-print(d.empty())    # false
-print(d.pop())      # 3
-print(d.empty())    # true
+def swap(array, idx1, idx2):
+    temp = array[idx1]
+    array[idx1] = array[idx2]
+    array[idx2] = temp
+
+
+#array = [100,99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80]
+array = [1,5,15,0,60,2,3,5,11]
+print(quick_sort(array, 0, len(array)))
