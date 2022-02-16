@@ -1,3 +1,5 @@
+# based on the explanation from visualgo.net
+
 def quick_sort(array, from_idx, to_idx):
     if to_idx <= from_idx + 1:
         return array
