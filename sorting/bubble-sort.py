@@ -23,8 +23,8 @@ def bubble_sort(bubbles: List[int]) -> List[int]:
     return bubbles
 
 
-sorted_array = bubble_sort([21,19,5,2,0,-80, -80, 0, 1, 1, 3])
-assert sorted_array == [-80, -80, 0, 0, 1, 1, 2, 3, 5, 19, 21]
+sorted_array = bubble_sort([19,5,2,0,40, 20, 15, 30, -80, 0, 1, 1, 3])
+assert sorted_array == [-80, 0, 0, 1, 1, 2, 3, 5, 15, 19, 20, 30, 40]
 print (sorted_array)
 
 
