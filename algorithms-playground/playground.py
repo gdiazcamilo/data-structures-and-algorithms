@@ -1,43 +1,54 @@
-# based on the explanation from visualgo.net
-# worst case -> O(N^2)
-# averae case -> O(NLog(N))
-# It's in-place algorithm. In practice and with some optimizations is faster than merge sort and use less memory than merge sort.
-def quick_sort(array, from_idx, to_idx):
-    if to_idx <= from_idx + 1:
-        return array
+def merge(intervals) :
+    """
+    Intervals A and B are overlapped when:
+    A        [---]
+    B    [-------]
+    
+    1. start of B <= end of A and end of A is <= than end of B
+        new interval = start of A, end of B
+    2. start of A <= end of B and end of B is <= than end of A
+        new interval = start of B, end of A
         
-    # We're going to choose an element (`pivot`) and and move it to the final sorted position that it should be.
-    pivot_idx = from_idx
-    pivot = array[pivot_idx]
-
-    # `store_idx` tell us in which position we're going to put the elements that are <= than `pivot`
-    store_idx = pivot_idx + 1
-
-    # Move all the elements <= pivot next to pivot
-    for idx in range(from_idx + 1, to_idx):
-        if array[idx] <= pivot:
-            swap(array, store_idx, idx)
-            store_idx += 1
     
-    # Now we know that pivot should be after the last element that we moved, 
-    # but Quick Sort is an in-place algorithm so we just swap `pivot` with the last_element.
-    # Then `pivot` will be at its final position.
-    swap(array, store_idx - 1, pivot_idx)
+    Check each interval.
+    Compare each interval with the non-overlapped intervals.
+    If the interval is overlapped with one of the non-overlapped intervals, then merge it with the non-overlapped.
     
-    # Now that `pivot` it's at its final position, we do the same but with the elements to the left and then with the elements to the right.
-    #sorted_first_half = 
-    quick_sort(array, pivot_idx, store_idx - 1)
-    # now that first half is sorted, sort the second half to finish
-    #sorted_array = 
-    quick_sort(array, store_idx, to_idx)
+    """
     
-    return array
+    
+    non_overlappeds = []
+    for interval_A in intervals:
+        
+        A_start, A_end = interval_A
+        
+        is_overlapped = False
+        for B_idx, interval_B in enumerate(non_overlappeds):
+            # check if they are overlapped
+            
+            B_start, B_end = interval_B
+            
+            if A_start <= B_end and B_end <= A_end:
+                A_start = min(A_start, B_start)
+                A_end = max(A_end, B_end)
+                is_overlapped = True
+                # modify non_overlapped in index of B
+                non_overlappeds[B_idx] = [A_start, A_end]
+                
+            elif B_start <= A_end and A_end <= B_end:
+                A_start = min(A_start, B_start)
+                A_end = max(A_end, B_end)
+                is_overlapped = True
+                # modify non_overlapped in index of B
+                non_overlappeds[B_idx] = [A_start, A_end]
+            
+        if not is_overlapped:
+            non_overlappeds.append([A_start, A_end])
+        
+    result = set()
+    for i in non_overlappeds:
+        result.add( (i[0], i[1]) )
+    return result
 
 
-def swap(array, idx1, idx2):
-    array[idx1], array[idx2] = array[idx2], array[idx1]
-
-
-#array = [100,99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80]
-array = [1,5,15,0,60,2,3,5,11]
-print(quick_sort(array, 0, len(array)))
+print(merge([[1,3],[4,8],[0,18]]))
